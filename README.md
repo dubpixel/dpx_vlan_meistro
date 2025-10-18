@@ -114,6 +114,7 @@ The script supports multiple facility types (4Wall, Aeon Point, Desert, and cust
 - Dynamic IP prompting based on configuration templates
 - Default value support for common octets
 - Comprehensive validation with detailed error messages
+- **DHCP or Static IP configuration choice**
 
 ### ⚙️ **Multiple Operation Modes**
 - **Normal Mode**: Complete setup (switch + adapters + IPs)
@@ -313,8 +314,10 @@ At completion, the script displays:
    - Enter virtual switch name (defaults to "vLanSwitch")
    - Script creates virtual switch and VLAN adapters with delays
 
-4. **IP Configuration**
-   - Script prompts for required IP octets based on VLAN set configuration
+5. **IP Configuration**
+   - Script prompts for IP method: **DHCP** (automatic) or **Static IP** (manual octet entry)
+   - For Static IP: Script prompts for required IP octets based on VLAN set configuration
+   - For DHCP: All virtual adapters are configured for automatic IP assignment
    - Defaults are shown if defined in `vlan_sets.json`
    - IP addresses are built from the `ipBase` template (e.g., `10.{vlan}.{third}.{fourth}`)
    - Common patterns:
@@ -376,14 +379,41 @@ Setting VLAN ID 10 for '10_Server_A'...
 Enter the third octet for IP addresses (press Enter for default: 13): 20
 Enter the fourth octet for IP addresses: 100
 
-Setting IP 10.10.20.100 for '10_Server_A'...
-✓ Successfully set IP 10.10.20.100 for '10_Server_A'
+Setting IP 192.168.101.100 for '101_Server_A'...
+✓ Successfully set IP 192.168.101.100 for '101_Server_A'
 # ... continues for all adapters ...
 
 Script completed.
 ```
 
-**Result:** All AeonPoint VLANs created with IPs like `10.10.20.100`, `10.20.20.100`, etc.
+**Result:** All Desert VLANs configured with static IPs like `192.168.101.100`, `192.168.102.100`, etc.
+
+---
+
+#### **Scenario 1.5: DHCP Configuration**
+Using DHCP for automatic IP assignment instead of static IPs:
+
+```powershell
+PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+
+# ... VLAN set and mode selection ...
+
+IP Configuration Method:
+1. Static IP (configure custom IP addresses)
+2. DHCP (use automatic IP assignment)
+
+Choose IP method (1 for Static, 2 for DHCP, press Enter for Static): 2
+Using DHCP for IP configuration.
+
+Setting DHCP for '101_Server_A'...
+Enabling DHCP for '101_Server_A'...
+✓ Successfully enabled DHCP for '101_Server_A'
+# ... continues for all adapters ...
+
+Script completed.
+```
+
+**Result:** All VLAN adapters configured for DHCP - network will assign IPs automatically.
 
 ---
 
@@ -594,7 +624,7 @@ If you encounter issues not covered here:
 - **Logging**: Comprehensive logging for troubleshooting and auditing
 
 ### Current Version
-**v1.87** - Latest stable release with subnet-aware validation and configuration summary features.
+**v1.94** - Latest stable release with DHCP/Static IP choice and subnet-aware validation features.
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -609,6 +639,7 @@ If you encounter issues not covered here:
 - [x] Configuration summary output
 - [x] Dynamic IP prompting with defaults
 - [x] Multiple facility support (4Wall, Aeon Point, Desert, custom)
+- [x] DHCP vs Static IP configuration choice
 
 ### 🔄 **In Progress**
 - [ ] Python/Tkinter GUI wrapper for PowerShell execution

@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.94
+
+### Added or Changed
+- Added DHCP vs Static IP configuration choice at the beginning of IP assignment section
+- Users can now choose between DHCP (automatic IP assignment) or Static IP (manual octet entry)
+- DHCP option skips octet collection and validation, enabling DHCP on all virtual adapters
+- Static IP option continues with existing subnet-aware validation and IP assignment logic
+- Updated configuration summary to display IP method and handle DHCP configurations appropriately
+- Updated version to 1.94 and ASCII art title accordingly
+
+## v1.93
+
+### Added or Changed
+- Reorganized README.md with collapsible sections using HTML details/summary tags
+- Made Configuration, Usage Examples, and Troubleshooting sections collapsible for better user experience
+- Removed duplicate Quick Start and Script Workflow sections to eliminate redundancy
+- Added prominent BAT file instructions at the top of the Usage section
+- Improved overall documentation organization and accessibility
+- Updated version to 1.93 and ASCII art title accordingly
+
 ## v1.87
 
 ### Added or Changed

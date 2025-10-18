@@ -26,7 +26,7 @@
 #
 # ================================================================================
 # PROJECT: DPX_VLAN_MEISTRO
-# VERSION: 1.93
+# VERSION: 1.94
 # ================================================================================
 #
 # [File-specific information]
@@ -96,7 +96,7 @@ Write-Host "║                           ██║  ██║██╔═══
 Write-Host "║                           ██████╔╝██║     ██╔╝ ██╗                           ║" -ForegroundColor Cyan
 Write-Host "║                           ╚═════╝ ╚═╝     ╚═╝  ╚═╝                           ║" -ForegroundColor Cyan
 Write-Host "║                                                                              ║" -ForegroundColor Cyan
-Write-Host "║                             VLAN MEISTRO v1.93                               ║" -ForegroundColor Yellow
+Write-Host "║                             VLAN MEISTRO v1.94                               ║" -ForegroundColor Yellow
 Write-Host "║                      Hyper-V Network Configuration Tool                      ║" -ForegroundColor Yellow
 Write-Host "╚══════════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
@@ -107,7 +107,7 @@ Clear-Host
 
 # Warning Message
 Write-Host "╔══════════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║                             VLAN MEISTRO v1.93                               ║" -ForegroundColor Yellow
+Write-Host "║                             VLAN MEISTRO v1.94                               ║" -ForegroundColor Yellow
 Write-Host "║                      Hyper-V Network Configuration Tool                      ║" -ForegroundColor Yellow
 Write-Host "╠══════════════════════════════════════════════════════════════════════════════╣" -ForegroundColor Red
 Write-Host "║                              ⚠️  WARNING ⚠️                                    ║" -ForegroundColor Red
@@ -134,7 +134,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 
 # Prompt for delay timing
-$delayInput = Read-Host "Enter delay between operations in seconds (press Enter for default: 10)"
+$delayInput = Read-Host "Enter delay between operations in seconds (press Enter for default: 8)"
 if ([string]::IsNullOrWhiteSpace($delayInput)) {
     $delay = 8
 } else {
@@ -550,22 +550,66 @@ if (!$ipOnly) {
     }
 }
 
-# Prompt for IP octets dynamically based on VLAN set configuration
-$allIPsValid = $false
+# Prompt for IP configuration method (DHCP vs Static)
 Write-Host "══════════════════════════════════════════════════════════════════════════════"
+Write-Host "IP Configuration Method:"
+Write-Host "1. Static IP (configure custom IP addresses)"
+Write-Host "2. DHCP (use automatic IP assignment)"
+Write-Host ""
+
 do {
-    $ipOctets = @{}
-    foreach ($promptName in $ipPrompts) {
-        $defaultValue = $ipDefaults.$promptName
-        if ($defaultValue) {
-            $promptText = "Enter the $promptName octet for IP addresses (subnet: $subnetMask, press Enter for default: $defaultValue)"
-            do {
-                $userInput = Read-Host $promptText
-                $isValidOctet = $false
-                if ([string]::IsNullOrWhiteSpace($userInput)) {
-                    $isValidOctet = $true
-                    $ipOctets[$promptName] = $defaultValue
-                } else {
+    $ipMethodChoice = Read-Host "Choose IP method (1 for Static, 2 for DHCP, press Enter for Static)"
+    $isValidMethod = ([string]::IsNullOrWhiteSpace($ipMethodChoice) -or $ipMethodChoice -eq "1" -or $ipMethodChoice -eq "2")
+    if (!$isValidMethod) {
+        Write-Host "Invalid choice. Please enter 1 for Static, 2 for DHCP, or press Enter for Static." -ForegroundColor Red
+    }
+} while (!$isValidMethod)
+
+$useDHCP = $false
+if ($ipMethodChoice -eq "2") {
+    $useDHCP = $true
+    Write-Host "Using DHCP for IP configuration." -ForegroundColor Green
+} else {
+    Write-Host "Using Static IP configuration." -ForegroundColor Green
+}
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
+
+if (!$useDHCP) {
+    # Prompt for IP octets dynamically based on VLAN set configuration
+    $allIPsValid = $false
+    Write-Host "══════════════════════════════════════════════════════════════════════════════"
+    do {
+        $ipOctets = @{}
+        foreach ($promptName in $ipPrompts) {
+            $defaultValue = $ipDefaults.$promptName
+            if ($defaultValue) {
+                $promptText = "Enter the $promptName octet for IP addresses (subnet: $subnetMask, press Enter for default: $defaultValue)"
+                do {
+                    $userInput = Read-Host $promptText
+                    $isValidOctet = $false
+                    if ([string]::IsNullOrWhiteSpace($userInput)) {
+                        $isValidOctet = $true
+                        $ipOctets[$promptName] = $defaultValue
+                    } else {
+                        try {
+                            $num = [int]$userInput
+                            if ($num -ge 0 -and $num -le 255) {
+                                $isValidOctet = $true
+                                $ipOctets[$promptName] = $userInput
+                            }
+                        } catch {
+                            $isValidOctet = $false
+                        }
+                    }
+                    if (!$isValidOctet) {
+                        Write-Host "Invalid octet. Please enter a number between 0 and 255." -ForegroundColor Red
+                    }
+                } while (!$isValidOctet)
+            } else {
+                $promptText = "Enter the $promptName octet for IP addresses (subnet: $subnetMask)"
+                do {
+                    $userInput = Read-Host $promptText
+                    $isValidOctet = $false
                     try {
                         $num = [int]$userInput
                         if ($num -ge 0 -and $num -le 255) {
@@ -575,85 +619,67 @@ do {
                     } catch {
                         $isValidOctet = $false
                     }
-                }
-                if (!$isValidOctet) {
-                    Write-Host "Invalid octet. Please enter a number between 0 and 255." -ForegroundColor Red
-                }
-            } while (!$isValidOctet)
-        } else {
-            $promptText = "Enter the $promptName octet for IP addresses (subnet: $subnetMask)"
-            do {
-                $userInput = Read-Host $promptText
-                $isValidOctet = $false
-                try {
-                    $num = [int]$userInput
-                    if ($num -ge 0 -and $num -le 255) {
-                        $isValidOctet = $true
-                        $ipOctets[$promptName] = $userInput
+                    if (!$isValidOctet) {
+                        Write-Host "Invalid octet. Please enter a number between 0 and 255." -ForegroundColor Red
                     }
-                } catch {
-                    $isValidOctet = $false
-                }
-                if (!$isValidOctet) {
-                    Write-Host "Invalid octet. Please enter a number between 0 and 255." -ForegroundColor Red
-                }
-            } while (!$isValidOctet)
+                } while (!$isValidOctet)
+            }
         }
-    }
-Write-Host "══════════════════════════════════════════════════════════════════════════════"
-    # Validate all assembled IP addresses against subnet
-    Write-Host "Validating IP addresses against subnet $subnetMask..." -ForegroundColor Yellow
+    Write-Host "══════════════════════════════════════════════════════════════════════════════"
+        # Validate all assembled IP addresses against subnet
+        Write-Host "Validating IP addresses against subnet $subnetMask..." -ForegroundColor Yellow
 
-    $validationResults = @()
-    $allIPsValid = $true
+        $validationResults = @()
+        $allIPsValid = $true
 
-    foreach ($vlan in $vlans) {
-        # Build IP address from template
-        $ip = $ipBase
-        $ip = $ip -replace '\{vlan\}', $vlan.VlanId
-        foreach ($octetName in $ipOctets.Keys) {
-            $ip = $ip -replace "`{$octetName`}", $ipOctets[$octetName]
+        foreach ($vlan in $vlans) {
+            # Build IP address from template
+            $ip = $ipBase
+            $ip = $ip -replace '\{vlan\}', $vlan.VlanId
+            foreach ($octetName in $ipOctets.Keys) {
+                $ip = $ip -replace "`{$octetName`}", $ipOctets[$octetName]
+            }
+            
+            # Validate IP against subnet
+            $validation = Test-IPAgainstSubnet -ipAddress $ip -subnetMask $subnetMask
+            
+            $result = @{
+                VLAN = $vlan
+                IP = $ip
+                IsValid = $validation.IsValid
+                Network = $validation.NetworkAddress
+                Broadcast = $validation.BroadcastAddress
+            }
+            $validationResults += $result
+            
+            if (!$validation.IsValid) {
+                $allIPsValid = $false
+            }
         }
-        
-        # Validate IP against subnet
-        $validation = Test-IPAgainstSubnet -ipAddress $ip -subnetMask $subnetMask
-        
-        $result = @{
-            VLAN = $vlan
-            IP = $ip
-            IsValid = $validation.IsValid
-            Network = $validation.NetworkAddress
-            Broadcast = $validation.BroadcastAddress
-        }
-        $validationResults += $result
-        
-        if (!$validation.IsValid) {
-            $allIPsValid = $false
-        }
-    }
 
-    # Display validation results
-    if (!$allIPsValid) {
-        Write-Host "Invalid IP configuration for $subnetMask subnet:" -ForegroundColor Red
-        Write-Host ""
-        
-        foreach ($result in $validationResults) {
-            $status = if ($result.IsValid) { "✅" } else { "❌" }
-            $message = if ($result.IsValid) { "Valid" } else { "Invalid (not in $($result.Network) network)" }
-            Write-Host "$status $($result.IP) - $message"
+        # Display validation results
+        if (!$allIPsValid) {
+            Write-Host "Invalid IP configuration for $subnetMask subnet:" -ForegroundColor Red
+            Write-Host ""
+            
+            foreach ($result in $validationResults) {
+                $status = if ($result.IsValid) { "✅" } else { "❌" }
+                $message = if ($result.IsValid) { "Valid" } else { "Invalid (not in $($result.Network) network)" }
+                Write-Host "$status $($result.IP) - $message"
+            }
+            
+            Write-Host ""
+            Write-Host "Please re-enter octet values." -ForegroundColor Yellow
+        } else {
+            Write-Host "All IP addresses are valid for $subnetMask subnet." -ForegroundColor Green
+            foreach ($result in $validationResults) {
+                Write-Host "✅ $($result.IP) - Valid"
+            }
+            Write-Host ""
         }
-        
-        Write-Host ""
-        Write-Host "Please re-enter octet values." -ForegroundColor Yellow
-    } else {
-        Write-Host "All IP addresses are valid for $subnetMask subnet." -ForegroundColor Green
-        foreach ($result in $validationResults) {
-            Write-Host "✅ $($result.IP) - Valid"
-        }
-        Write-Host ""
-    }
-Write-Host "══════════════════════════════════════════════════════════════════════════════"
-} while (!$allIPsValid)
+    Write-Host "══════════════════════════════════════════════════════════════════════════════"
+    } while (!$allIPsValid)
+}
 
 if (!$ipOnly) {
     # Wait 10 seconds after last adapter creation
@@ -662,62 +688,105 @@ if (!$ipOnly) {
 
 # Assign IP addresses to virtual adapters using template from JSON
 foreach ($vlan in $vlans) {
-    # Build IP address from template
-    $ip = $ipBase
-    $ip = $ip -replace '\{vlan\}', $vlan.VlanId
-    foreach ($octetName in $ipOctets.Keys) {
-        $ip = $ip -replace "`{$octetName`}", $ipOctets[$octetName]
-    }
-    
-    Write-Host "Setting IP $ip for '$($vlan.Name)'..."
+    if ($useDHCP) {
+        # DHCP configuration
+        Write-Host "Setting DHCP for '$($vlan.Name)'..."
+        
+        # Wait for adapter to be available and get fresh adapter info
+        $maxRetries = 10
+        $retryCount = 0
+        $adapter = $null
 
-    # Wait for adapter to be available and get fresh adapter info
-    $maxRetries = 10
-    $retryCount = 0
-    $adapter = $null
-
-    while ($retryCount -lt $maxRetries -and $adapter -eq $null) {
-        $adapter = Get-NetAdapter | Where-Object { $_.Name -eq "vEthernet ($($vlan.Name))" }
-        if ($adapter -eq $null) {
-            Write-Host "Waiting for adapter 'vEthernet ($($vlan.Name))' to be available... ($($retryCount + 1)/$maxRetries)"
-            Start-Sleep -Seconds 3
-            $retryCount++
-        }
-    }
-
-    if ($adapter) {
-        try {
-            # Use netsh for IP configuration instead of PowerShell cmdlets
-            Write-Host "Configuring IP $ip for '$($vlan.Name)' using netsh..."
-            
-            # Get adapter name for netsh
-            $adapterName = $adapter.Name
-            
-            # Use netsh to set static IP (this automatically handles DHCP disable)
-            $netshCommand = "netsh interface ip set address ""$adapterName"" static $ip $subnetMask"
-            Write-Host "Running: $netshCommand"
-            $result = cmd /c $netshCommand 2>&1
-            
-            if ($LASTEXITCODE -eq 0) {
-                Write-Host "✓ Successfully set IP $ip for '$($vlan.Name)'"
-            } else {
-                Write-Host "✗ Netsh failed: $result"
-                throw "Netsh IP configuration failed"
-            }
-
-            # Verify the IP was set correctly
-            $verifyIP = Get-NetIPAddress -InterfaceIndex $adapter.InterfaceIndex | Where-Object { $_.IPAddress -eq $ip }
-            if ($verifyIP) {
-                Write-Host "✓ Successfully set IP $ip for '$($vlan.Name)'"
-            } else {
-                Write-Host "⚠ Warning: IP $ip may not have been set correctly for '$($vlan.Name)'"
+        while ($retryCount -lt $maxRetries -and $adapter -eq $null) {
+            $adapter = Get-NetAdapter | Where-Object { $_.Name -eq "vEthernet ($($vlan.Name))" }
+            if ($adapter -eq $null) {
+                Write-Host "Waiting for adapter 'vEthernet ($($vlan.Name))' to be available... ($($retryCount + 1)/$maxRetries)"
+                Start-Sleep -Seconds 3
+                $retryCount++
             }
         }
-        catch {
-            Write-Host "✗ Error setting IP for '$($vlan.Name)': $($_.Exception.Message)"
+
+        if ($adapter) {
+            try {
+                # Enable DHCP for this adapter
+                Write-Host "Enabling DHCP for '$($vlan.Name)'..."
+                Set-NetIPInterface -InterfaceIndex $adapter.InterfaceIndex -Dhcp Enabled
+                
+                # Remove any existing static IP addresses (only if they exist)
+                $existingIPs = Get-NetIPAddress -InterfaceIndex $adapter.InterfaceIndex -AddressFamily IPv4 -ErrorAction SilentlyContinue
+                if ($existingIPs) {
+                    foreach ($existingIP in $existingIPs) {
+                        Remove-NetIPAddress -IPAddress $existingIP.IPAddress -Confirm:$false
+                    }
+                }
+                
+                Write-Host "✓ Successfully enabled DHCP for '$($vlan.Name)'"
+            }
+            catch {
+                Write-Host "✗ Error enabling DHCP for '$($vlan.Name)': $($_.Exception.Message)"
+            }
+        } else {
+            Write-Host "✗ Error: Adapter '$($vlan.Name)' not found after $maxRetries attempts"
         }
     } else {
-        Write-Host "✗ Error: Adapter '$($vlan.Name)' not found after $maxRetries attempts"
+        # Static IP configuration (existing logic)
+        # Build IP address from template
+        $ip = $ipBase
+        $ip = $ip -replace '\{vlan\}', $vlan.VlanId
+        foreach ($octetName in $ipOctets.Keys) {
+            $ip = $ip -replace "`{$octetName`}", $ipOctets[$octetName]
+        }
+        
+        Write-Host "Setting IP $ip for '$($vlan.Name)'..."
+
+        # Wait for adapter to be available and get fresh adapter info
+        $maxRetries = 10
+        $retryCount = 0
+        $adapter = $null
+
+        while ($retryCount -lt $maxRetries -and $adapter -eq $null) {
+            $adapter = Get-NetAdapter | Where-Object { $_.Name -eq "vEthernet ($($vlan.Name))" }
+            if ($adapter -eq $null) {
+                Write-Host "Waiting for adapter 'vEthernet ($($vlan.Name))' to be available... ($($retryCount + 1)/$maxRetries)"
+                Start-Sleep -Seconds 3
+                $retryCount++
+            }
+        }
+
+        if ($adapter) {
+            try {
+                # Use netsh for IP configuration instead of PowerShell cmdlets
+                Write-Host "Configuring IP $ip for '$($vlan.Name)' using netsh..."
+                
+                # Get adapter name for netsh
+                $adapterName = $adapter.Name
+                
+                # Use netsh to set static IP (this automatically handles DHCP disable)
+                $netshCommand = "netsh interface ip set address ""$adapterName"" static $ip $subnetMask"
+                Write-Host "Running: $netshCommand"
+                $result = cmd /c $netshCommand 2>&1
+                
+                if ($LASTEXITCODE -eq 0) {
+                    Write-Host "✓ Successfully set IP $ip for '$($vlan.Name)'"
+                } else {
+                    Write-Host "✗ Netsh failed: $result"
+                    throw "Netsh IP configuration failed"
+                }
+
+                # Verify the IP was set correctly
+                $verifyIP = Get-NetIPAddress -InterfaceIndex $adapter.InterfaceIndex | Where-Object { $_.IPAddress -eq $ip }
+                if ($verifyIP) {
+                    Write-Host "✓ Successfully set IP $ip for '$($vlan.Name)'"
+                } else {
+                    Write-Host "⚠ Warning: IP $ip may not have been set correctly for '$($vlan.Name)'"
+                }
+            }
+            catch {
+                Write-Host "✗ Error setting IP for '$($vlan.Name)': $($_.Exception.Message)"
+            }
+        } else {
+            Write-Host "✗ Error: Adapter '$($vlan.Name)' not found after $maxRetries attempts"
+        }
     }
 }
 
@@ -731,12 +800,23 @@ Write-Host ""
 if (!$ipOnly) {
     Write-Host "Selected NIC: $selectedNic" -ForegroundColor White
 }
-Write-Host "Subnet: $subnetMask" -ForegroundColor White
+if (!$useDHCP) {
+    Write-Host "Subnet: $subnetMask" -ForegroundColor White
+    Write-Host "IP Method: Static" -ForegroundColor White
+} else {
+    Write-Host "IP Method: DHCP" -ForegroundColor White
+}
 Write-Host ""
 Write-Host "Configured VLANs:" -ForegroundColor White
 
-foreach ($result in $validationResults) {
-    Write-Host "  VLAN $($result.VLAN.VlanId) ($($result.VLAN.Name)): $($result.IP) - Broadcast: $($result.Broadcast)" -ForegroundColor Green
+if ($useDHCP) {
+    foreach ($vlan in $vlans) {
+        Write-Host "  VLAN $($vlan.VlanId) ($($vlan.Name)): DHCP enabled" -ForegroundColor Green
+    }
+} else {
+    foreach ($result in $validationResults) {
+        Write-Host "  VLAN $($result.VLAN.VlanId) ($($result.VLAN.Name)): $($result.IP) - Broadcast: $($result.Broadcast)" -ForegroundColor Green
+    }
 }
 
 Write-Host ""
