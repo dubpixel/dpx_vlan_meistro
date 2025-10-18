@@ -101,7 +101,7 @@ Write-Host "║                      Hyper-V Network Configuration Tool         
 Write-Host "╚══════════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-Start-Countdown -seconds 5
+Start-Countdown -seconds 2
 
 Clear-Host
 
@@ -136,29 +136,29 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 # Prompt for delay timing
 $delayInput = Read-Host "Enter delay between operations in seconds (press Enter for default: 10)"
 if ([string]::IsNullOrWhiteSpace($delayInput)) {
-    $delay = 10
+    $delay = 8
 } else {
     try {
         $delay = [int]$delayInput
         if ($delay -lt 0) {
-            Write-Host "Delay cannot be negative, using default of 10 seconds." -ForegroundColor Yellow
-            $delay = 10
+            Write-Host "Delay cannot be negative, using default of 8 seconds." -ForegroundColor Yellow
+            $delay = 8
         }
     } catch {
-        Write-Host "Invalid delay value, using default of 10 seconds." -ForegroundColor Yellow
-        $delay = 10
+        Write-Host "Invalid delay value, using default of 8 seconds." -ForegroundColor Yellow
+        $delay = 8
     }
 }
 
 # Warning about delay timing
-if ($delay -ne 10) {
+if ($delay -ne 8) {
     Write-Host ""
     Write-Host "╔══════════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Red
     Write-Host "║                              ⚠️  WARNING ⚠️                                    ║" -ForegroundColor Red
     Write-Host "║                                                                              ║" -ForegroundColor Red
     Write-Host "║  💀 CUSTOM DELAY SETTING DETECTED - CHANGE AT YOUR OWN RISK! 💀              ║" -ForegroundColor Red
     Write-Host "║                                                                              ║" -ForegroundColor Red
-    Write-Host "║  You have set delay to $delay seconds (default is 10).                            ║" -ForegroundColor Yellow
+    Write-Host "║  You have set delay to $delay seconds (default is 8).                            ║" -ForegroundColor Yellow
     Write-Host "║                                                                              ║" -ForegroundColor Red
     Write-Host "║  ⚠️ Setting delay too low may cause:                                          ║" -ForegroundColor Yellow
     Write-Host "║     • Hyper-V operations to fail                                             ║" -ForegroundColor White
