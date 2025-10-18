@@ -11,7 +11,8 @@
       ],
       "ipBase": "10.{vlan}.{third}.{fourth}",
       "ipPrompts": ["third", "fourth"],
-      "ipDefaults": {"third": 13}
+      "ipDefaults": {"third": 13},
+      "subnet": "255.252.0.0"
     },
     "AeonPoint": {
       "vlans": [
@@ -28,7 +29,8 @@
       ],
       "ipBase": "10.{vlan}.{third}.{fourth}",
       "ipPrompts": ["third", "fourth"],
-      "ipDefaults": {"third": 3}
+      "ipDefaults": {"third": 3},
+      "subnet": "255.255.254.0"
     },
     "Desert": {
       "vlans": [
@@ -48,7 +50,8 @@
       ],
       "ipBase": "192.168.{vlan}.{fourth}",
       "ipPrompts": ["fourth"],
-      "ipDefaults": {}
+      "ipDefaults": {},
+      "subnet": "255.255.255.0"
     },
     "ExampleFacility": {
       "vlans": [
@@ -58,7 +61,8 @@
       ],
       "ipBase": "10.{vlan}.{third}.{fourth}",
       "ipPrompts": ["third", "fourth"],
-      "ipDefaults": {"third": 10}
+      "ipDefaults": {"third": 10},
+      "subnet": "255.255.255.0"
     }
   }
 }
