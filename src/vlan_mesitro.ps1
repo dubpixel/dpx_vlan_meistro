@@ -36,6 +36,18 @@
 #          robust IP assignment with delays for proper execution.
 # Dependencies: Windows PowerShell Hyper-V module, administrative privileges.
 #
+# TODO LIST:
+# 1. Test "nuke all" feature thoroughly on Hyper-V host with real network adapters
+# 2. Test actual network connectivity and VLAN functionality with physical network
+# 3. Add input validation for IP octets and VLAN selections
+# 4. Consider making delay timing configurable via command line parameter
+# 5. Add progress indicators for long-running operations
+# 6. Add logging capabilities for troubleshooting and audit trails
+# 7. Consider adding more facility VLAN configurations to JSON
+# 8. Add dry-run mode for testing without making actual changes
+# 9. Add backup/restore functionality for existing network configurations
+# 10. Consider adding GUI interface using Windows Forms or WPF - i was thining python OG
+#
 
 #
 # ================================================================================

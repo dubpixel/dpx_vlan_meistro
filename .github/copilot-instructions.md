@@ -17,6 +17,7 @@ This project includes AI-generated code assistance provided by GitHub Copilot. P
 - **Answer only what is asked** - do not anticipate or propose additional work
 - **ALL user prompts and AI solutions must be documented verbatim in the change log comments**
   - Format: User prompt as single line, followed by itemized solution with → bullet
+- **Maintain CHANGELOG.md with version updates and change summaries** for all code modifications
 
 ## Project Architecture & Context
 
