@@ -176,6 +176,7 @@ if ($delay -ne 8) {
 }
 
 Write-Host "Using delay of $delay seconds between operations."
+Write-Host "═══════════════════════════════════════════════════════════════════════════════" -ForegroundColor Red
 
 
 # Function to convert CIDR notation to subnet mask
@@ -341,6 +342,7 @@ if ($vlanConfig -and $vlanConfig.vlanSets) {
 }
 
 # Prompt for VLAN set dynamically
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
 Write-Host "Available VLAN sets:"
 for ($i = 0; $i -lt $vlanSetNames.Count; $i++) {
     $setName = $vlanSetNames[$i]
@@ -409,7 +411,7 @@ $validModes = @{
     "2" = @{ name = "IP only"; description = "IP only (skip creation, only assign IPs)"; ipOnly = $true; nukeAll = $false }
     "3" = @{ name = "Nuke all"; description = "Nuke all (remove all virtual switches except default)**CURRENTLY IN TESTING**"; ipOnly = $false; nukeAll = $true }
 }
-
+Write-Host "═══════════════════════════════════════"
 # Prompt for mode
 Write-Host "Select mode:"
 foreach ($key in $validModes.Keys | Sort-Object) {
@@ -433,7 +435,7 @@ if ([string]::IsNullOrWhiteSpace($modeChoice)) {
 
 $ipOnly = $selectedMode.ipOnly
 $nukeAll = $selectedMode.nukeAll
-
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
 # Handle nuke all mode
 if ($nukeAll) {
     Write-Host "NUKE ALL MODE: Removing all virtual switches except default switches..."
@@ -470,7 +472,7 @@ if ($nukeAll) {
     Write-Host "Nuke all operation completed."
     exit
 }
-
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
 if (!$ipOnly) {
     # List current NICs
     Write-Host "Listing available network adapters:"
@@ -479,7 +481,7 @@ if (!$ipOnly) {
         $status = if ($adapters[$i].Status -eq "Up") { "Up" } else { "Down" }
         Write-Host "$($i+1). $($adapters[$i].Name) - $($adapters[$i].InterfaceDescription) [Status: $status]"
     }
-
+    Write-Host "══════════════════════════════════════════════════════════════════════════════"
     # Validate NIC choice input
     do {
         $choice = Read-Host "Select the NIC by number (1-$($adapters.Count))"
@@ -501,7 +503,7 @@ if (!$ipOnly) {
 
     $selectedNic = $adapters[$choice-1].Name
     Write-Host "Selected NIC: $selectedNic"
-
+    Write-Host "══════════════════════════════════════════════════════════════════════════════"
     # Prompt for virtual switch name
     $switchName = Read-Host "Enter virtual switch name (press Enter for default: vLanSwitch)"
     if ([string]::IsNullOrWhiteSpace($switchName)) { $switchName = "vLanSwitch" }
@@ -550,7 +552,7 @@ if (!$ipOnly) {
 
 # Prompt for IP octets dynamically based on VLAN set configuration
 $allIPsValid = $false
-
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
 do {
     $ipOctets = @{}
     foreach ($promptName in $ipPrompts) {
@@ -598,7 +600,7 @@ do {
             } while (!$isValidOctet)
         }
     }
-
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
     # Validate all assembled IP addresses against subnet
     Write-Host "Validating IP addresses against subnet $subnetMask..." -ForegroundColor Yellow
 
@@ -650,7 +652,7 @@ do {
         }
         Write-Host ""
     }
-
+Write-Host "══════════════════════════════════════════════════════════════════════════════"
 } while (!$allIPsValid)
 
 if (!$ipOnly) {
