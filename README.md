@@ -694,6 +694,8 @@ Don't forget to give the project a star! Thanks again!
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+- **Everyone on the Coachella Screens Team that helped & contributed to the original notion document & scripts (tim sean & ben)
+
 <!--
   * [ ]() - the best !
 -->
