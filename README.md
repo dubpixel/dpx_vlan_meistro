@@ -7,7 +7,7 @@
 
 <!-- /// d   u   b   p   i   x   e   l  ---  f   o   r   k   ////--v0.5.7 -->
 <!--this has additionally been modifed by @dubpixel for hardware use -->
-<!--search dpx_vlan_meistro.. search & replace is COMMAND OPTION F -->
+<!--search dpx_vlan_maestro.. search & replace is COMMAND OPTION F -->
 
 <!--this is the version for software -->
 <!--todo ** add small product image thats not in a details tag -->
@@ -36,21 +36,21 @@
 </div>
 <!-- PROJECT LOGO -->
 <div align="center">
-  <a href="https://github.com/dubpixel/dpx_vlan_meistro">
+  <a href="https://github.com/dubpixel/dpx_vlan_maestro">
     <img src="images/logo.png" alt="Logo" height="120">
   </a>
-<h1 align="center">dpx_vlan_meistro</h1>
+<h1 align="center">dpx_vlan_maestro</h1>
 <h3 align="center"><i>Hyper-V Network Configuration Automation</i></h3>
   <p align="center">
     PowerShell script that creates virtual switches and VLAN-tagged network adapters for different facility configurations
     <br />
      »  
-     <a href="https://github.com/dubpixel/dpx_vlan_meistro"><strong>Project Here!</strong></a>
+     <a href="https://github.com/dubpixel/dpx_vlan_maestro"><strong>Project Here!</strong></a>
      »  
      <br />
-    <a href="https://github.com/dubpixel/dpx_vlan_meistro/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/dubpixel/dpx_vlan_maestro/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/dubpixel/dpx_vlan_meistro/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/dubpixel/dpx_vlan_maestro/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
     </p>
 </div>
    <br />
@@ -83,7 +83,7 @@
 <!-- ABOUT THE PROJECT -->
 <details>
 <summary><h3>About The Project</h3></summary>
-DPX_VLAN_MEISTRO is a comprehensive PowerShell automation script for Windows Hyper-V environments. It simplifies the complex process of setting up virtual network infrastructure by creating virtual switches, VLAN-tagged network adapters, and assigning static IP addresses according to facility-specific configurations.
+DPX_VLAN_maestro is a comprehensive PowerShell automation script for Windows Hyper-V environments. It simplifies the complex process of setting up virtual network infrastructure by creating virtual switches, VLAN-tagged network adapters, and assigning static IP addresses according to facility-specific configurations.
 
 The script supports multiple facility types (4Wall, Aeon Point, Desert, and custom configurations) with dynamic VLAN set loading from external JSON files. It includes robust validation, safety features, and multiple operation modes to handle different network management scenarios.
 
@@ -189,11 +189,11 @@ The script supports multiple facility types (4Wall, Aeon Point, Desert, and cust
 
   1. Clone the repository
      ```bash
-     git clone https://github.com/dubpixel/dpx_vlan_meistro.git
+     git clone https://github.com/dubpixel/dpx_vlan_maestro.git
      ```
   2. Navigate to the PowerShell script directory
      ```bash
-     cd dpx_vlan_meistro/src
+     cd dpx_vlan_maestro/src
      ```
   3. Ensure you have administrative privileges
   4. Run PowerShell as Administrator
@@ -343,7 +343,7 @@ At completion, the script displays:
 Setting up a new Hyper-V host with AeonPoint VLAN configuration:
 
 ```powershell
-PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
 
 # ASCII art title and warning messages display...
 
@@ -394,7 +394,7 @@ Script completed.
 Using DHCP for automatic IP assignment instead of static IPs:
 
 ```powershell
-PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
 
 # ... VLAN set and mode selection ...
 
@@ -421,7 +421,7 @@ Script completed.
 Changing IP addresses on existing VLAN adapters without recreating them:
 
 ```powershell
-PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)
@@ -453,7 +453,7 @@ Script completed.
 Removing all virtual switches before decommissioning or rebuilding:
 
 ```powershell
-PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)
@@ -502,7 +502,7 @@ Using a custom VLAN set defined in `vlan_sets.json`:
 ```
 
 ```powershell
-PS C:\DPX_VLAN_MEISTRO\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)
@@ -593,7 +593,7 @@ For additional troubleshooting, you can add debug output by modifying the script
 
 ### Getting Help
 If you encounter issues not covered here:
-1. Check the [Issues](https://github.com/dubpixel/dpx_vlan_meistro/issues) page
+1. Check the [Issues](https://github.com/dubpixel/dpx_vlan_maestro/issues) page
 2. Create a new issue with your error messages and system details
 3. Include your Windows version, Hyper-V status, and script output
 
@@ -655,11 +655,11 @@ If you encounter issues not covered here:
 - [ ] Network performance monitoring
 - [ ] Integration with network management tools
 
-See the [open issues](https://github.com/dubpixel/dpx_vlan_meistro/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/dubpixel/dpx_vlan_maestro/issues) for a full list of proposed features (and known issues).
 
 
 
-See the [open issues](https://github.com/dubpixel/dpx_vlan_meistro/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/dubpixel/dpx_vlan_maestro/issues) for a full list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -676,8 +676,8 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 ### Top contributors:
-<a href="https://github.com/dubpixel/dpx_vlan_meistro/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=dubpixel/dpx_vlan_meistro" alt="contrib.rocks image" />
+<a href="https://github.com/dubpixel/dpx_vlan_maestro/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dubpixel/dpx_vlan_maestro" alt="contrib.rocks image" />
 </a>
 
 <!-- LICENSE -->
@@ -689,7 +689,7 @@ Don't forget to give the project a star! Thanks again!
 
   ### Joshua Fleitell - i@dubpixel.tv
 
-  Project Link: [https://github.com/dubpixel/dpx_vlan_meistro](https://github.com/dubpixel/dpx_vlan_meistro)
+  Project Link: [https://github.com/dubpixel/dpx_vlan_maestro](https://github.com/dubpixel/dpx_vlan_maestro)
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -704,16 +704,16 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/dubpixel/dpx_vlan_meistro.svg?style=flat-square
-[contributors-url]: https://github.com/dubpixel/dpx_vlan_meistro/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/dubpixel/dpx_vlan_meistro.svg?style=flat-square
-[forks-url]: https://github.com/dubpixel/dpx_vlan_meistro/network/members
-[stars-shield]: https://img.shields.io/github/stars/dubpixel/dpx_vlan_meistro.svg?style=flat-square
-[stars-url]: https://github.com/dubpixel/dpx_vlan_meistro/stargazers
-[issues-shield]: https://img.shields.io/github/issues/dubpixel/dpx_vlan_meistro.svg?style=flat-square
-[issues-url]: https://github.com/dubpixel/dpx_vlan_meistro/issues
-[license-shield]: https://img.shields.io/github/license/dubpixel/dpx_vlan_meistro.svg?style=flat-square
-[license-url]: https://github.com/dubpixel/dpx_vlan_meistro/blob/main/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/dubpixel/dpx_vlan_maestro.svg?style=flat-square
+[contributors-url]: https://github.com/dubpixel/dpx_vlan_maestro/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/dubpixel/dpx_vlan_maestro.svg?style=flat-square
+[forks-url]: https://github.com/dubpixel/dpx_vlan_maestro/network/members
+[stars-shield]: https://img.shields.io/github/stars/dubpixel/dpx_vlan_maestro.svg?style=flat-square
+[stars-url]: https://github.com/dubpixel/dpx_vlan_maestro/stargazers
+[issues-shield]: https://img.shields.io/github/issues/dubpixel/dpx_vlan_maestro.svg?style=flat-square
+[issues-url]: https://github.com/dubpixel/dpx_vlan_maestro/issues
+[license-shield]: https://img.shields.io/github/license/dubpixel/dpx_vlan_maestro.svg?style=flat-square
+[license-url]: https://github.com/dubpixel/dpx_vlan_maestro/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/jfleitell
 [product-front]: images/front.png
