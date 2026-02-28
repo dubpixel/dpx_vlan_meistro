@@ -36,7 +36,7 @@ This project includes AI-generated code assistance provided by GitHub Copilot. P
 
 ## Project Architecture & Context
 
-### DPX_VLAN_MEISTRO Overview
+### DPX_VLAN_MAESTRO Overview
 This is a PowerShell automation script for Windows Hyper-V network management. It creates virtual switches and VLAN-tagged network adapters for different facility configurations (4Wall, Aeon Point, Desert). The script supports two modes: Normal (full creation + IP assignment) and IP-only (IP assignment to existing adapters).
 
 **Key Components:**
@@ -49,14 +49,14 @@ This is a PowerShell automation script for Windows Hyper-V network management. I
 - **External VLAN configuration:** Reads VLAN sets from `vlan_sets.json` file
 
 **Critical Files:**
-- `src/vlan_mesitro.ps1` - Main interactive PowerShell script
+- `src/vlan_maestro.ps1` - Main interactive PowerShell script
 - `src/vlan_sets.json` - External VLAN configuration file
 - `README.md` - Comprehensive usage documentation with Jekyll/GitHub Pages hosting
 
 ### Development Environment Setup
 - **OS:** Windows 10/11 with Hyper-V enabled
 - **Prerequisites:** PowerShell 5.1+, Administrative privileges, Hyper-V PowerShell module
-- **Execution:** Run as Administrator: `.\vlan_mesitro.ps1`
+- **Execution:** Run as Administrator: `.\vlan_maestro.ps1`
 - **Testing:** Manual execution on Hyper-V host with physical network adapter
 
 ### Project-Specific Patterns

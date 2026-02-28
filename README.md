@@ -83,7 +83,7 @@
 <!-- ABOUT THE PROJECT -->
 <details>
 <summary><h3>About The Project</h3></summary>
-DPX_VLAN_maestro is a comprehensive PowerShell automation script for Windows Hyper-V environments. It simplifies the complex process of setting up virtual network infrastructure by creating virtual switches, VLAN-tagged network adapters, and assigning static IP addresses according to facility-specific configurations.
+DPX_VLAN_MAESTRO is a comprehensive PowerShell automation script for Windows Hyper-V environments. It simplifies the complex process of setting up virtual network infrastructure by creating virtual switches, VLAN-tagged network adapters, and assigning static IP addresses according to facility-specific configurations.
 
 The script supports multiple facility types (4Wall, Aeon Point, Desert, and custom configurations) with dynamic VLAN set loading from external JSON files. It includes robust validation, safety features, and multiple operation modes to handle different network management scenarios.
 
@@ -343,7 +343,7 @@ At completion, the script displays:
 Setting up a new Hyper-V host with AeonPoint VLAN configuration:
 
 ```powershell
-PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_MAESTRO\src> .\vlan_maestro.ps1
 
 # ASCII art title and warning messages display...
 
@@ -394,7 +394,7 @@ Script completed.
 Using DHCP for automatic IP assignment instead of static IPs:
 
 ```powershell
-PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_MAESTRO\src> .\vlan_maestro.ps1
 
 # ... VLAN set and mode selection ...
 
@@ -421,7 +421,7 @@ Script completed.
 Changing IP addresses on existing VLAN adapters without recreating them:
 
 ```powershell
-PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_MAESTRO\src> .\vlan_maestro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)
@@ -453,7 +453,7 @@ Script completed.
 Removing all virtual switches before decommissioning or rebuilding:
 
 ```powershell
-PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_MAESTRO\src> .\vlan_maestro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)
@@ -502,7 +502,7 @@ Using a custom VLAN set defined in `vlan_sets.json`:
 ```
 
 ```powershell
-PS C:\DPX_VLAN_maestro\src> .\vlan_mesitro.ps1
+PS C:\DPX_VLAN_MAESTRO\src> .\vlan_maestro.ps1
 
 Available VLAN sets:
 1. 4Wall (6 VLANs)

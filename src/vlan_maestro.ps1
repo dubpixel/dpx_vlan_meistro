@@ -1,6 +1,6 @@
 ﻿###############################################################################
 # ================================================================================
-# POWERSHELL - VLAN MESITRO OPERATING DIRECTIVES
+# POWERSHELL - VLAN MAESTRO OPERATING DIRECTIVES
 # ================================================================================
 #
 # This project includes AI-generated code assistance provided by GitHub Copilot.
@@ -30,7 +30,7 @@
 # ================================================================================
 #
 # [File-specific information]
-# File: vlan_mesitro.powershell
+# File: vlan_maestro.powershell
 # Purpose: Interactive script to create a virtual switch and VLAN network adapters
 #          on Windows Hyper-V host, with cleanup of existing configurations and
 #          robust IP assignment with delays for proper execution.
