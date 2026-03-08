@@ -198,6 +198,43 @@ The script supports multiple facility types (4Wall, Aeon Point, Desert, and cust
   3. Ensure you have administrative privileges
   4. Run PowerShell as Administrator
 
+## Running the Script
+
+There are three ways to run the script. **Method 1 is recommended** as it handles PowerShell execution policies automatically.
+
+### Method 1: Using the Batch File (Recommended)
+The easiest way to run the script:
+
+1. Navigate to the `src` folder
+2. Right-click on `vlan_maestro.bat`
+3. Select **"Run as Administrator"**
+
+The batch file automatically bypasses PowerShell execution policy restrictions.
+
+### Method 2: PowerShell with Bypass
+If you prefer running PowerShell directly:
+
+```powershell
+# Open PowerShell as Administrator, then:
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+.\vlan_maestro.ps1
+```
+
+This temporarily bypasses execution policy for the current session only.
+
+### Method 3: One-Line Execution
+Run directly from any command prompt (as Administrator):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ".\vlan_maestro.ps1"
+```
+
+### Execution Policy Notes
+- Windows restricts PowerShell script execution by default for security
+- The `-ExecutionPolicy Bypass` flag allows the script to run without changing system-wide settings
+- Administrative privileges are required for Hyper-V operations
+- The batch file handles this automatically
+
 ## Configuration
 
 <details>
